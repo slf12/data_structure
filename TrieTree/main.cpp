@@ -29,12 +29,12 @@ class Trie{
 
 private:
     struct TrieNode* root;
-    
+
 public:
     Trie()
     {
         root = new TrieNode();
-        
+
     }
     void insert(string word){
         TrieNode *p = root;
@@ -45,9 +45,9 @@ public:
             p = p->children[c-'a'];
         }
         p->isEndOfWord = true;
-        
+
     }
-    
+
     bool search(string word){
         TrieNode* p = root;
         for(char c : word){
@@ -58,6 +58,18 @@ public:
         }
         return (p!=NULL && p->isEndOfWord);
     }
+
+    bool startsWith(string prefix) {
+        TrieNode* p = root;
+        for(char c : prefix){
+            c = tolower(c);
+            if(p->children[c-'a'] == NULL)
+                return false;
+            p = p->children[c-'a'];
+        }
+
+        return (p!=NULL);
+    }
 };
 
 int main(int argc, const char * argv[]) {
@@ -65,10 +77,11 @@ int main(int argc, const char * argv[]) {
     Trie tire;
     tire.insert("string");
     tire.insert("apple");
-    tire.insert("word");
+    tire.insert("a");
     tire.insert("noodle");
     tire.insert("noodl");
-    cout << tire.search("strinj") << endl;
+    cout << tire.search("a") << endl;
+    cout << tire.startsWith("a") << endl;
     cout << tire.search("noodl") << endl;
     return 0;
 }
